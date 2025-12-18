@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+
+
+  # 1. MySQL (The "Sakila" Database)
+  # PRE-LOADED: No setup required. It comes with data inside.
+  # 1. MySQL (The "Sakila" Database) - VERSION 2
+  # 1. MySQL (The "Sakila" Database)
+  # 1. MySQL (The "Sakila" Database)
+  # 1. MySQL (Official Image - Clean Slate)
+  legacy_mysql:
+    image: mysql:8.0
+    container_name: source_mysql_sakila
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sakila
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      # Use a brand new volume name to ensure no old data conflicts
+      - sakila_data_official:/var/lib/mysql
+  # 2. SQL Server (The "AdventureWorks" Database)
+  # EMPTY START: We must manually "Restore" the backup file (Standard Enterprise Workflow).
+  legacy_mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: source_mssql_advent
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    volumes:
+      # Map our local data folder to the container so it can see the backup file
+      - ./data:/var/opt/mssql/backup
+
+  # 3. PostgreSQL (The "Northwind" Database)
+  # AUTO-LOAD: We map a SQL script to the 'initdb' folder. Postgres runs it automatically on startup.
+  legacy_postgres:
+    image: postgres:14
+    container_name: source_postgres_northwind
+    ports:
+      - "5433:5432" # Map to 5433 to avoid conflict with Target DB
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: northwind
+    volumes:
+      # This tells Postgres: "Run this script when you first wake up"
+      - ./data/northwind.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+volumes:
+  sakila_data_user_fix:
