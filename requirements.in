@@ -1,0 +1,14 @@
+# --- Database Connectivity ---
+sqlalchemy                 # The ORM and Strategy Engine
+mysql-connector-python     # Driver for MySQL (Source)
+psycopg2-binary            # Driver for PostgreSQL (Target)
+
+# --- AI & Orchestration ---
+langchain                  # The Agent Framework
+langchain-groq           # To talk to GPT-4o
+langchain-core             # Core logic for chains
+
+# --- Utilities ---
+python-dotenv              # To read .env files
+pandas                     # For data validation/comparison later
+pip-tools                  # For managing requirements files
