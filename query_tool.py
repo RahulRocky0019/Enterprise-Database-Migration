@@ -6,7 +6,8 @@ from sqlalchemy import create_engine, text
 DB_CONFIGS = {
     "MySQL (Sakila)": "mysql+pymysql://root:rootpassword@localhost:3307/sakila",
     "Postgres (Northwind)": "postgresql+psycopg2://postgres:password@localhost:5433/northwind",
-    "SQL Server (AdventureWorks)": "mssql+pymssql://SA:YourStrong!Passw0rd@localhost:1433/AdventureWorks"
+    "SQL Server (AdventureWorks)": "mssql+pymssql://SA:YourStrong!Passw0rd@localhost:1433/AdventureWorks",
+    "SQLite (TPC-H)": "sqlite:///data/tpch.db"
 }
 
 def get_engine(db_url):
