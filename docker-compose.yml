@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------
+  # LEVEL 1 SOURCE: MySQL (Sakila)
+  # ----------------------------------------------------------------
+  source_mysql:
+    image: mysql:8.0
+    container_name: migration_source_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sakila
+    ports:
+      - "3306:3306"
+    volumes:
+      # UPDATE: Pointing to the new organized folder
+      - ./data/mysql_sakila:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+
+  # ----------------------------------------------------------------
+  # LEVEL 2 SOURCE: SQL Server (AdventureWorks) - COMMENTED OUT FOR NOW
+  # ----------------------------------------------------------------
+  # source_mssql:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   container_name: migration_source_mssql
+  #   environment:
+  #     ACCEPT_EULA: "Y"
+  #     MSSQL_SA_PASSWORD: "StrongPassword123!"
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     # You will map your .bak file here later
+  #     - ./data/mssql_adventureworks:/var/opt/mssql/backup
+
+  # ----------------------------------------------------------------
+  # TARGET: PostgreSQL (The Destination)
+  # ----------------------------------------------------------------
+  target_postgres:
+    image: postgres:15
+    container_name: migration_target
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: warehouse_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ----------------------------------------------------------------
+  # TOOLS: Adminer (Viewer)
+  # ----------------------------------------------------------------
+  adminer:
+    image: adminer
+    container_name: db_viewer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
+  postgres_data:

@@ -1,0 +1,47 @@
+databases from internet/
+
+# Dependencies
+node_modules/
+venv/
+env/
+.venv/
+.env.backup
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.mdb
+*.bak
+migrations/backup/
+
+# Sensitive data
+.env
+.env.local
+secrets/
+config/credentials.json
+
+# Build artifacts
+dist/
+build/
+*.pyc
+__pycache__/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
