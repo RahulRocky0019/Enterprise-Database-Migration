@@ -20,17 +20,17 @@ services:
   # ----------------------------------------------------------------
   # LEVEL 2 SOURCE: SQL Server (AdventureWorks) - COMMENTED OUT FOR NOW
   # ----------------------------------------------------------------
-  # source_mssql:
-  #   image: mcr.microsoft.com/mssql/server:2022-latest
-  #   container_name: migration_source_mssql
-  #   environment:
-  #     ACCEPT_EULA: "Y"
-  #     MSSQL_SA_PASSWORD: "StrongPassword123!"
-  #   ports:
-  #     - "1433:1433"
-  #   volumes:
-  #     # You will map your .bak file here later
-  #     - ./data/mssql_adventureworks:/var/opt/mssql/backup
+  source_mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: migration_source_mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "StrongPassword123!"
+    ports:
+      - "1433:1433"
+    volumes:
+      # You will map your .bak file here later
+      - ./data/mssql_adventureworks:/var/opt/mssql/backup
 
   # ----------------------------------------------------------------
   # TARGET: PostgreSQL (The Destination)

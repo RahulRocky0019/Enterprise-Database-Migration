@@ -2,6 +2,7 @@
 sqlalchemy                 # The ORM and Strategy Engine
 mysql-connector-python     # Driver for MySQL (Source)
 psycopg2-binary            # Driver for PostgreSQL (Target)
+pyodbc                     # Driver for SQL Server (Source)
 
 # --- AI & Orchestration ---
 langchain                  # The Agent Framework
