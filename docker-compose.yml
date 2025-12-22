@@ -13,27 +13,30 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      # UPDATE: Pointing to the new organized folder
       - ./data/mysql_sakila:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
 
   # ----------------------------------------------------------------
-  # LEVEL 2 SOURCE: SQL Server (AdventureWorks) - COMMENTED OUT FOR NOW
+  # LEVEL 2 SOURCE: SQL Server (AdventureWorks)
   # ----------------------------------------------------------------
   source_mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: migration_source_mssql
+    user: root
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "StrongPassword123!"
     ports:
       - "1433:1433"
     volumes:
-      # You will map your .bak file here later
+      # 1. Input: The Backup File (Read Only mostly)
       - ./data/mssql_adventureworks:/var/opt/mssql/backup
+      
+      # 2. Output: The PERSISTENT DATA (The Fix!) <--- NEW LINE
+      - mssql_data:/var/opt/mssql/data
 
   # ----------------------------------------------------------------
-  # TARGET: PostgreSQL (The Destination)
+  # TARGET: PostgreSQL
   # ----------------------------------------------------------------
   target_postgres:
     image: postgres:15
@@ -60,3 +63,4 @@ services:
 volumes:
   mysql_data:
   postgres_data:
+  mssql_data:
